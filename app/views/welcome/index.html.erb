@@ -1,0 +1,23 @@
+<div id="user-widget">
+  <% if current_user %>
+    Welcome <strong><%= current_user.name %></strong>!
+    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+
+    <%= form_for @post, method: :post do |f| %>
+      <%= f.text_field :blob %><br />
+      <%= f.hidden_field :user_id, value: current_user.id %><br />
+      <%= f.submit %>
+    <% end %>
+    <br>
+    <% @posts.each do |post| %>
+      <%= post.user.name %>
+      <br>
+      <%= post.blob %>
+      <br>
+      <br>
+    <% end %>
+  <% else %>
+    <%= link_to "Login with Facebook", "/auth/facebook", id: "sign_in" %>
+  <% end %>
+  <br>
+</div>
