@@ -12,7 +12,7 @@
     <% @posts.each do |post| %>
       <%= post.user.name %>
       <br>
-      <%= post.blob %>
+      <%= auto_link(post.blob) %>
       <br>
       <br>
     <% end %>
