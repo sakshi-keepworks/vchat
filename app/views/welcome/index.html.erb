@@ -14,6 +14,7 @@
       <br>
       <%= auto_link(post.blob) %>
       <br>
+      <%= link_to "Like", like_post_path(post), class: 'vote', method: :put, remote: true %>
       <br>
     <% end %>
   <% else %>

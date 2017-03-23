@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
+  acts_as_votable
   belongs_to :user
-  has_many :votes
 
   validates_presence_of :blob, :user
 end
