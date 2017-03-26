@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :posts
+  acts_as_voter
 
   def self.create_with_omniauth(auth)
     create! do |user|

@@ -14,7 +14,15 @@
       <br>
       <%= auto_link(post.blob) %>
       <br>
-      <%= link_to "Like", like_post_path(post), class: 'vote', method: :put, remote: true %>
+      <span class="votes-count" data-id="<%= post.id %>">
+        <%= post.get_likes.size %>
+      </span>
+      <% if current_user.liked? post %>
+        <%= link_to "Dislike", dislike_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Like', toggle_href: like_post_path(post), id: post.id } %>
+      <% else %>
+        <%= link_to "Like", like_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Dislike', toggle_href: dislike_post_path(post), id: post.id } %>
+      <% end %>
+      <br>
       <br>
     <% end %>
   <% else %>
@@ -22,3 +30,6 @@
   <% end %>
   <br>
 </div>
+<%= content_for :script do %>
+  <%= javascript_include_tag 'voting' %>
+<% end %>

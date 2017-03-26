@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   root 'welcome#index'
   resources :posts do
     member do
-      put 'like'
-      put 'dislike'
+      get 'like'
+      get 'dislike'
+      put 'like', to: "posts#like"
+      put 'dislike', to: "posts#dislike"
     end
   end
 
