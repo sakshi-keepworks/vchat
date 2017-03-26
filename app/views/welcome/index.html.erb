@@ -1,34 +1,48 @@
-<div id="user-widget">
-  <% if current_user %>
-    Welcome <strong><%= current_user.name %></strong>!
-    <%= link_to "Sign out", signout_path, id: "sign_out" %>
-
-    <%= form_for @post, method: :post do |f| %>
-      <%= f.text_field :blob %><br />
-      <%= f.hidden_field :user_id, value: current_user.id %><br />
-      <%= f.submit %>
-    <% end %>
-    <br>
-    <% @posts.each do |post| %>
-      <%= post.user.name %>
-      <br>
-      <%= auto_link(post.blob) %>
-      <br>
-      <span class="votes-count" data-id="<%= post.id %>">
-        <%= post.get_likes.size %>
-      </span>
-      <% if current_user.liked? post %>
-        <%= link_to "Dislike", dislike_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Like', toggle_href: like_post_path(post), id: post.id } %>
-      <% else %>
-        <%= link_to "Like", like_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Dislike', toggle_href: dislike_post_path(post), id: post.id } %>
-      <% end %>
+<div class="container">
+  <div class="header clearfix">
+    <h3 class="text-muted">Vchat</h3>
+  </div>
+</div>
+<div class="container">
+  <div id="user-widget">
+    <% if current_user %>
+      Welcome <strong><%= current_user.name %></strong>!
+      <div class="pull-right">
+        <%= link_to "Sign out", signout_path, id: "sign_out" %>
+      </div>
       <br>
       <br>
-    <% end %>
-  <% else %>
-    <%= link_to "Login with Facebook", "/auth/facebook", id: "sign_in" %>
-  <% end %>
-  <br>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-3">
+          <%= form_for @post, method: :post do |f| %>
+            <%= f.text_field :blob, class: "col-md-7", style: "height: 40px" %><br />
+            <%= f.hidden_field :user_id, value: current_user.id %><br />
+            <%= f.submit %>
+          <% end %>
+          <br>
+          <% @posts.each do |post| %>
+            <%= post.user.name %>
+            <br>
+            <%= auto_link(post.blob) %>
+            <br>
+            <span class="votes-count" data-id="<%= post.id %>">
+              <%= post.get_likes.size %>
+            </span>
+            <% if current_user.liked? post %>
+              <%= link_to "Dislike", dislike_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Like', toggle_href: like_post_path(post), id: post.id } %>
+            <% else %>
+              <%= link_to "Like", like_post_path(post), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Dislike', toggle_href: dislike_post_path(post), id: post.id } %>
+            <% end %>
+            <br>
+            <br>
+          <% end %>
+        <% else %>
+          <%= link_to "Login with Facebook", "/auth/facebook", id: "sign_in" %>
+        <% end %>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>
 <%= content_for :script do %>
   <%= javascript_include_tag 'voting' %>
