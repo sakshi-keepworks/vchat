@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :find_post, only: [:like, :dislike]
+
   def create
     post = Post.new(post_params)
     unless post.save
@@ -15,7 +17,6 @@ class PostsController < ApplicationController
   end
 
   def like
-    @content = Post.find(params[:id])
     @content.liked_by current_user
 
     if request.xhr?
@@ -26,7 +27,6 @@ class PostsController < ApplicationController
   end
 
   def dislike
-    @content = Post.find(params[:id])
     @content.disliked_by current_user
 
     if request.xhr?
@@ -34,6 +34,12 @@ class PostsController < ApplicationController
     else
       redirect_to :back
     end
+  end
+
+  private
+
+  def find_post
+    @content = Post.find(params[:id])
   end
 
 end
