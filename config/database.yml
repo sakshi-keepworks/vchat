@@ -25,4 +25,5 @@ test:
 
 production:
   <<: *default
-  database: db/vchat_production
+  database: postgresql
+
